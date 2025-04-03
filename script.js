@@ -3,9 +3,6 @@ cross = true;
 
 const audio = new Audio('music.mp3');
 const audiogo = new Audio('gameover.mp3');
-// setTimeout(() => {
-//     audio.play()
-// }, 1000);
 
 var isPlaying = false; // Track audio state
 
@@ -53,9 +50,9 @@ setInterval(() => {
 
     offsetX = Math.abs(dx - ox);
     offsetY = Math.abs(dy - oy);
-    // console.log(offsetX, offsetY)
+
     if (offsetX < 73 && offsetY < 52) {
-        gameOver.innerHTML = "Game Over - Reload to Play Again";
+        gameOver.innerHTML = "Game Over";
         obstacle.classList.remove('obstacleAni');
         audiogo.currentTime = 0; // Reset the game-over sound
         audiogo.play();
@@ -64,7 +61,10 @@ setInterval(() => {
         setTimeout(() => {
             audiogo.pause();
             audiogo.currentTime = 0; // Ensure game-over sound is reset
-        }, 1500); // Increase timeout to allow game-over sound to finish properly
+        }, 1500); // Increase timeout to allow game-over sound to finish properly
+
+        // Show Reset Button
+        showResetButton();
     }
     else if (offsetX < 145 && cross) {
         score += 1;
@@ -79,11 +79,35 @@ setInterval(() => {
             obstacle.style.animationDuration = newDur + 's';
             console.log('New animation duration: ', newDur)
         }, 500);
-
     }
 
 }, 10);
 
 function updateScore(score) {
-    scoreCont.innerHTML = "Your Score: " + score
+    scoreCont.innerHTML = "Your Score: " + score;
+}
+
+// Function to create and display the reset button
+function showResetButton() {
+    let resetBtn = document.createElement("button");
+    resetBtn.innerHTML = "Restart Game";
+    resetBtn.style.position = "absolute";
+    resetBtn.style.top = "30%";
+    resetBtn.style.left = "50%";
+    resetBtn.style.transform = "translate(-50%, -50%)";
+    resetBtn.style.padding = "10px 20px";
+    resetBtn.style.fontSize = "18px";
+    resetBtn.style.cursor = "pointer";
+    resetBtn.style.background = "#ff5733";
+    resetBtn.style.color = "black";
+    resetBtn.style.border = "none";
+    resetBtn.style.borderRadius = "5px";
+    resetBtn.style.boxShadow = "0px 4px 6px rgba(0,0,0,0.3)";
+
+    document.body.appendChild(resetBtn);
+
+    // Add event listener to reset the game
+    resetBtn.addEventListener("click", function () {
+        location.reload();
+    });
 }
